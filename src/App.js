@@ -21,8 +21,12 @@ const App = () => {
     }
   ]
 
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  /*After we initialize the state and have access to the current stat and the state updater function,
+  use them to display the current state and update it within the App component's event handler:*/
   const handleChange = event => {
-    console.log(event.target.value);
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -31,6 +35,10 @@ const App = () => {
 
       <label htmlFor="search">Search: </label> 
       <input id="search" type="text" onChange={handleChange}/>
+
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
 
       <hr />
 
@@ -42,7 +50,7 @@ const App = () => {
 
 
 // List component
-const List = props =>  {/* change to props to prevent the list/stories variable from polluting the global scope */}
+const List = props =>
   props.list.map(item => (
       <div key={item.objectID}>
         <span>
