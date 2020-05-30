@@ -20,22 +20,23 @@ const list = [
 ]
 
 const App = () => {
-  // commonly called a function component; its just a Javascript function
-  // doesnt have any parameters in its function signature yet
-  // returns code that resembles HTML which is called *JSX*
+  const handleChange = event => {
+    console.log(event.target.value);
+  };
+
   return (
     <div>
       <h1>My Hacker Stories</h1>
 
       <label htmlFor="search">Search: </label> 
-      <input id="search" type="text"/>
+      <input id="search" type="text" onChange={handleChange}/>
 
       <hr />
 
       <List />
     </div>
-  ) // *htmlFor* reflects the *for* attribute in HTML. JSX replaces a handful of internal HTML attributes, but you cand
-}
+  ); // *htmlFor* reflects the *for* attribute in HTML. JSX replaces a handful of internal HTML attributes, but you cand
+};
 
 
 // List component
