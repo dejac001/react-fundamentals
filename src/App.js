@@ -21,24 +21,19 @@ const App = () => {
     }
   ]
 
-  const [searchTerm, setSearchTerm] = React.useState('');
-
-  /*After we initialize the state and have access to the current stat and the state updater function,
-  use them to display the current state and update it within the App component's event handler:*/
-  const handleChange = event => {
-    setSearchTerm(event.target.value);
+  // A callback function *A* gets introduced, is used elsewhere *B*, but calls back to the place it was introduced *C*
+  // This allows us to communicate *up* the component tree
+  // A
+  const handleSearch = event => {
+    // C
+    console.log(event.target.value)
   };
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
 
-      <label htmlFor="search">Search: </label> 
-      <input id="search" type="text" onChange={handleChange}/>
-
-      <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
+      <Search onSearch={handleSearch}/>
 
       <hr />
 
@@ -48,6 +43,26 @@ const App = () => {
   ); // *htmlFor* reflects the *for* attribute in HTML. JSX replaces a handful of internal HTML attributes, but you cand
 };
 
+const Search = props => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  const handleChange = event => {
+    setSearchTerm(event.target.value);
+    // B
+    props.onSearch(event)
+  };
+
+  return (
+    <div>
+      <label htmlFor="search">Search:</label>
+      <input id="search" type="text" onChange={handleChange} />
+
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
+    </div>
+  )
+}
 
 // List component
 const List = props =>
