@@ -19,7 +19,7 @@ const list = [
   }
 ]
 
-function App() {
+const App = () => {
   // commonly called a function component; its just a Javascript function
   // doesnt have any parameters in its function signature yet
   // returns code that resembles HTML which is called *JSX*
@@ -39,9 +39,8 @@ function App() {
 
 
 // List component
-function List() {
-  return list.map(function(item) {
-    return (
+const List = () => 
+  list.map(item => (
       <div key={item.objectID}>
         <span>
           <a href={item.url}>{item.title}</a>
@@ -51,7 +50,7 @@ function List() {
         <span>{item.points}</span>
       </div>
     )
-  });
-}
+  );
+
 
 export default App
