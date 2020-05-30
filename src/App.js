@@ -21,13 +21,22 @@ const App = () => {
     }
   ]
 
+  const [searchTerm, setSearchTerm] = React.useState('');
+
   // A callback function *A* gets introduced, is used elsewhere *B*, but calls back to the place it was introduced *C*
   // This allows us to communicate *up* the component tree
   // A
   const handleSearch = event => {
     // C
-    console.log(event.target.value)
+    setSearchTerm(event.target.value)
   };
+
+  // By manaing the search feature state in the App component, we can finally filter the list with the stateful *searchTerm*
+  //   before passing the list to the List component
+
+  const searchedStories = stories.filter(function(story) {
+    return story.title.includes(searchTerm)
+  });
 
   return (
     <div>
@@ -38,31 +47,24 @@ const App = () => {
       <hr />
 
       {/* Use React props to pass the array to the List component */}
-      <List list={stories} /> 
+      <List list={searchedStories} /> 
     </div>
   ); // *htmlFor* reflects the *for* attribute in HTML. JSX replaces a handful of internal HTML attributes, but you cand
 };
 
-const Search = props => {
-  const [searchTerm, setSearchTerm] = React.useState('');
+// The search comopnent doesnt manage the state anymore, but only passes up the event to the App component
+//  After text is entered into the input field. You could also display the searhterm again in the app component or search component
+//    by passing it down as a prop
 
-  const handleChange = event => {
-    setSearchTerm(event.target.value);
-    // B
-    props.onSearch(event)
-  };
+// Always manage the state at a component where every component that's interested in it is one that
+// either manages the state (using information directly from state) or a component below the managing component (using information from props)
 
-  return (
-    <div>
-      <label htmlFor="search">Search:</label>
-      <input id="search" type="text" onChange={handleChange} />
-
-      <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
-    </div>
-  )
-}
+const Search = props => (
+  <div>
+    <label htmlFor="search">Search: </label>
+    <input id="search" type="text" onChange={props.onSearch}/>
+  </div>
+)
 
 // List component
 const List = props =>
